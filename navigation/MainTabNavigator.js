@@ -2,10 +2,14 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
+
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+import SongScreen from '../screens/SongScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import {MaterialIcons} from "@expo/vector-icons";
+import Colors from "../constants/Colors";
+import {responsiveFontSize, responsiveHeight, responsiveWidth} from "react-native-responsive-dimensions";
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -14,22 +18,14 @@ const config = Platform.select({
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Home: SongScreen,
   },
   config
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
+      <MaterialIcons name={'music-note'} color={Colors.accentColor} size={responsiveFontSize(4)} />
   ),
 };
 
@@ -43,9 +39,8 @@ const LinksStack = createStackNavigator(
 );
 
 LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+      <MaterialIcons name={'search'} color={Colors.accentColor} size={responsiveFontSize(4)} />
   ),
 };
 
@@ -59,9 +54,8 @@ const SettingsStack = createStackNavigator(
 );
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+      <MaterialIcons name={'person'} color={Colors.accentColor} size={responsiveFontSize(4)} />
   ),
 };
 
@@ -71,6 +65,14 @@ const tabNavigator = createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
+},{
+    tabBarOptions:{
+        showLabel: false,
+        style: {
+            backgroundColor: Colors.primaryColor,
+            height: responsiveHeight(10)
+        },
+    }
 });
 
 tabNavigator.path = '';
