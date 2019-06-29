@@ -17,6 +17,7 @@
     "@react-navigation/web": "^1.0.0-alpha.9",
     "expo": "^33.0.0",
     "expo-asset": "^5.0.0",
+    "expo-av": "^5.0.2",
     "expo-constants": "^5.0.0",
     "expo-font": "^5.0.0",
     "expo-linear-gradient": "^5.0.1",
@@ -25,6 +26,7 @@
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-responsive-dimensions": "^2.0.1",
+    "react-native-slider": "^0.11.0",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.0"
   },

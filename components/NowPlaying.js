@@ -5,17 +5,18 @@ import {
     View,
     Text,
     Image,
-    StyleSheet
+    StyleSheet,
+    TouchableWithoutFeedback,
+    TouchableOpacity
 } from 'react-native';
 import {MaterialIcons} from "@expo/vector-icons";
 import Colors from "../constants/Colors";
+import * as GlobalStyles from "../styles";
+// import {TouchableWithoutFeedback} from "react-native-web";
 
 export default class NowPlaying extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            progress: 0.3
-        }
     }
 
     render(){
@@ -23,26 +24,51 @@ export default class NowPlaying extends React.Component{
 
             <LinearGradient colors={[Colors.accentGradientStart, Colors.accentGradientEnd]}
                             start={[0,0]}
-                            end={[1,1]}
-                            style={styles.nowPlayingContainer}>
+                            end={[1,1]}>
 
-                <View style={[styles.progressBar, {width: responsiveWidth((this.state.progress) * 100)}]}></View>
-                <View style={styles.controlContainer}>
-                    <View style={styles.songContainer}>
-                        <Image source={{uri: "https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.stereogum.com%2Fuploads%2F2018%2F01%2FScary-Hours-1516452280-640x640.jpg&f=1"}}
-                                style={styles.albumArt}
-                        />
+                <TouchableWithoutFeedback onPress={this.nowPlayingClicked.bind(this)} >
+                    <View style={styles.nowPlayingContainer}>
 
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.songTitle}>Song</Text>
-                            <Text style={styles.albumText}>Album info</Text>
-                        </View>
+                        <View style={[styles.progressBar, {width: responsiveWidth(this.props.currentPosition)}]}></View>
+                            <View style={styles.controlContainer}>
+                                <View style={GlobalStyles.styles.songContainer}>
+                                    <Image source={{uri: this.props.song.thumbnail}}
+                                            style={GlobalStyles.styles.albumArt}
+                                    />
+
+                                    <View style={GlobalStyles.styles.infoContainer}>
+                                        <Text style={[GlobalStyles.styles.songTitle, {color: Colors.heading}]}>{this.props.song.title}</Text>
+                                        <Text style={GlobalStyles.styles.albumText}>{this.props.song.album} - {this.props.song.artist}</Text>
+                                    </View>
+                                </View>
+
+                                <TouchableOpacity onPress={() => this.props.onToggle()}>
+                                    {this.renderPlayButton()}
+                                </TouchableOpacity>
+                            </View>
                     </View>
-                    <MaterialIcons name={'play-arrow'} color={Colors.heading} size={responsiveFontSize(6)} />
-                    
-                </View>
+                </TouchableWithoutFeedback>
+
+
             </LinearGradient>
         )
+    }
+
+    nowPlayingClicked(){
+        console.log("Now playing clicked");
+        this.props.navigation.navigate('NowPlaying');
+    }
+
+    renderPlayButton(){
+        if(this.props.isPaused){
+            return (
+                <MaterialIcons name={'play-arrow'} color={Colors.heading} size={responsiveFontSize(6)} />
+            )
+        }else{
+            return(
+                <MaterialIcons name={'pause'} color={Colors.heading} size={responsiveFontSize(6)} />
+            )
+        }
     }
 }
 
@@ -65,35 +91,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: responsiveWidth(6),
         alignItems: 'center'
     },
-
-    songContainer:{
-        flexDirection: 'row',
-
-    },
-
-    albumArt: {
-        width: responsiveHeight(7),
-        height: responsiveHeight(7),
-        borderRadius: responsiveHeight(1),
-        marginRight: responsiveWidth(5),
-
-    },
-    infoContainer:{
-        justifyContent: 'center',
-
-    },
-
-    songTitle:{
-        fontFamily: 'fira-regular',
-        color: Colors.heading,
-        fontSize: responsiveFontSize(2.3),
-        marginBottom: responsiveHeight(0.3),
-    },
-
-    albumText:{
-        fontFamily: 'fira-regular',
-        color: Colors.greyColor,
-        fontSize: responsiveFontSize(1.7),
-    }
 
 });

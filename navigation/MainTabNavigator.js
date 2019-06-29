@@ -5,11 +5,12 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import SongScreen from '../screens/SongScreen';
-import LinksScreen from '../screens/LinksScreen';
+import SearchScreen from '../screens/SearchScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import {MaterialIcons} from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import {responsiveFontSize, responsiveHeight, responsiveWidth} from "react-native-responsive-dimensions";
+import NowPlayingScreen from "../screens/NowPlayingScreen";
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -19,6 +20,7 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: SongScreen,
+    NowPlaying: NowPlayingScreen
   },
   config
 );
@@ -33,7 +35,8 @@ HomeStack.path = '';
 
 const LinksStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Links: SearchScreen,
+    NowPlaying: NowPlayingScreen
   },
   config
 );
